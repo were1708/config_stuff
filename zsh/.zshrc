@@ -17,8 +17,8 @@ export EDITOR='nvim'
 # Automatically update oh-my-zsh
 export UPDATE_ZSH_DAYS=14
 
-# Set zsh directory under zsh directory
-ZSH_CUSTOM=zsh
+# Set zsh directory under dotfiles as custom folder
+ZSH_CUSTOM=$DOTFILES/zsh
 
 # Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -31,15 +31,6 @@ bindkey '^F' autosuggest-accept
 bindkey ' ' magic-space
 bindkey '^L' forward-char
 bindkey '^H' backward-char
-
-alias la='ls -A'
-alias ll='ls -lA'
-alias vi='nvim'
-alias vim='nvim'
-alias cat='batcat'
-alias gs='git status'
-alias cmatrix='cmatrix -s'
-alias postgres_ucsc='psql -h cse180-db.lt.ucsc.edu -U jtrevill'
 
 # Show TODOs.
 if [ -x "$(command -v task)" &> /dev/null ]; then
@@ -72,5 +63,3 @@ zplug load
 
 # Make command green and bold
 ZSH_HIGHLIGHT_STYLES[arg0]=fg=green,bold
-
-
