@@ -11,6 +11,8 @@ export DOTFILES=$HOME/.dotfiles
 export LC_ALL=en_US.utf-8
 export LANG="$LC_ALL"
 
+# remember for weird lang bugs do `sudo locale-gen en_US.UTF-8`
+
 # Set editor for local/remote
 export EDITOR='nvim'
 
