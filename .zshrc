@@ -8,10 +8,9 @@ export ZSH=$HOME/.oh-my-zsh
 export DOTFILES=$HOME/.dotfiles
 
 # Language environment
+export LANGUAGE=en_US.utf-8
 export LC_ALL=en_US.utf-8
-export LANG="$LC_ALL"
-
-# remember for weird lang bugs do `sudo locale-gen en_US.UTF-8`
+export LANG=en_US.utf-8
 
 # Set editor for local/remote
 export EDITOR='nvim'
@@ -34,14 +33,19 @@ bindkey ' ' magic-space
 bindkey '^L' forward-char
 bindkey '^H' backward-char
 
-alias la='ls -A'
-alias ll='ls -lA'
 alias vi='nvim'
 alias vim='nvim'
 alias cat='batcat'
 alias gs='git status'
 alias cmatrix='cmatrix -s'
 alias postgres_ucsc='psql -h cse180-db.lt.ucsc.edu -U jtrevill'
+alias bbps='\cat /home/jrevilla/.bitbucket_password'
+
+# exa aliases
+alias ls="exa" 
+alias lt="exa -T"
+alias ll="exa -la"
+alias la="exa -a"
 
 # Show TODOs.
 if [ -x "$(command -v task)" &> /dev/null ]; then
@@ -75,4 +79,5 @@ zplug load
 # Make command green and bold
 ZSH_HIGHLIGHT_STYLES[arg0]=fg=green,bold
 
+fortune | cowsay
 
