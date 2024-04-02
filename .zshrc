@@ -4,8 +4,11 @@ ZSH_THEME="milktea"
 # Path to oh-my-zsh installation
 export ZSH=$HOME/.oh-my-zsh
 
-# Path to dotfiles
-export DOTFILES=$HOME/.dotfiles
+# export path to cargo binaries
+export PATH="$HOME/.cargo/bin/:$PATH"
+
+export PATH=$PATH:/usr/local/go/bin
+
 
 # Language environment
 export LANGUAGE=en_US.utf-8
