@@ -264,8 +264,9 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
     },
+    vim.keymap.set('n', '<leader>b', ':Gitsigns blame_line<CR>', { noremap = true }),
   },
-
+  -- vim.keymap.set('n', '<leader>b', ':Gitsigns blame_line<CR>', { noremap = true })
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -830,13 +831,6 @@ require('lazy').setup({
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
-
-  {
-    'APZelos/blamer.nvim',
-  },
-  -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
-  -- init.lua. If you want these files, they are in the repository, so you can just download them and
-  -- place them in the correct locations.
 
   -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
   --
