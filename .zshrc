@@ -82,5 +82,9 @@ zplug load
 # Make command green and bold
 ZSH_HIGHLIGHT_STYLES[arg0]=fg=green,bold
 
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux
+fi
+
 fortune | cowsay
 
