@@ -3,18 +3,6 @@ ZSH_THEME="milktea"
 
 # Path to oh-my-zsh installation
 export ZSH=$HOME/.oh-my-zsh
-
-# export path to cargo binaries
-export PATH="$HOME/.cargo/bin/:$PATH"
-
-export PATH=$PATH:/usr/local/go/bin
-
-
-# Language environment
-export LANGUAGE=en_US.utf-8
-export LC_ALL=en_US.utf-8
-export LANG=en_US.utf-8
-
 # Set editor for local/remote
 export EDITOR='nvim'
 
@@ -36,20 +24,16 @@ bindkey ' ' magic-space
 bindkey '^L' forward-char
 bindkey '^H' backward-char
 
+alias la='exa -a'
+alias ll='exa -l'
+alias ls='exa'
+alias lt='exa --tree'
 alias vi='nvim'
 alias vim='nvim'
-alias cat='batcat'
 alias gs='git status'
-alias cmatrix='cmatrix -s'
-alias postgres_ucsc='psql -h cse180-db.lt.ucsc.edu -U jtrevill'
-alias bbps='\cat /home/jrevilla/.bitbucket_password'
-
-# exa aliases
-alias ls="exa" 
-alias lt="exa -T"
-alias ll="exa -la"
-alias la="exa -a"
-
+alias cat='batcat'
+alias viconfig='vi ~/.config/nvim/init.lua'
+alias edit='nvim $(fzf --preview="cat {}")'
 # Show TODOs.
 if [ -x "$(command -v task)" &> /dev/null ]; then
     task list
@@ -83,8 +67,16 @@ zplug load
 ZSH_HIGHLIGHT_STYLES[arg0]=fg=green,bold
 
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
+  tmux attach || tmux new
 fi
+
+# Fuzzy find history
+source <(fzf --zsh)
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
 
 fortune | cowsay
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

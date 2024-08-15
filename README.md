@@ -13,3 +13,7 @@ we may need to do some things in order to get everything working
 2. install ripgrep for telescope and `make` for Lazy.nvim packages
 
 `sudo apt install make ripgrep`
+
+3. install fzf for `edit` and `history`
+
+`sudo apt install fzf`
