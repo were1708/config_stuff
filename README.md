@@ -17,3 +17,6 @@ we may need to do some things in order to get everything working
 3. install fzf for `edit` and `history`
 
 `sudo apt install fzf`
+
+
+4. install some sort of nerd font. as of `9/25/2024` I am using `Fira Code Nerd Font`
