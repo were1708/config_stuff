@@ -1,0 +1,15 @@
+return {
+  require("plugins.alpha"),
+  require("plugins.gitsigns"),
+  require("plugins.comment"),
+  require("plugins.which-key"),
+  require("plugins.telescope"),
+  require("plugins.lsp"),
+  require("plugins.autoformat"),
+  require("plugins.complete"),
+  require("plugins.todo"),
+  require("plugins.mini"),
+  require("plugins.treesitter"),
+  require("plugins.tree"),
+  require("plugins.theme"),
+}
