@@ -20,6 +20,17 @@ source $ZSH/oh-my-zsh.sh
 # Don't autocd.
 unsetopt autocd
 
+alias la='exa -a'
+alias ll='exa -l'
+alias ls='exa'
+alias lt='exa --tree'
+alias vi='nvim'
+alias vim='nvim'
+alias gs='git status'
+alias cat='batcat'
+alias viconfig='vi ~/.config/nvim/init.lua'
+alias edit='nvim $(fzf --preview="cat {}")'
+
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 [ -f "$HOME/.cargo/env" ] && source $HOME/.cargo/env
 [ -f "$HOME/.ghcup/env" ] && source $HOME/.ghcup/env
@@ -45,3 +56,18 @@ zplug load
 
 # Make command green and bold
 ZSH_HIGHLIGHT_STYLES[arg0]=fg=green,bold
+
+# Fuzzy find history
+source <(fzf --zsh)
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+
+fortune | cowsay
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
