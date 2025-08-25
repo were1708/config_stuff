@@ -3,16 +3,14 @@ ZSH_THEME="milktea"
 
 # Path to oh-my-zsh installation
 export ZSH=$HOME/.oh-my-zsh
-
-# Language environment
-export LC_ALL=en_US.utf-8
-export LANG="$LC_ALL"
-
 # Set editor for local/remote
 export EDITOR='nvim'
 
 # Automatically update oh-my-zsh
 export UPDATE_ZSH_DAYS=14
+
+# Set zsh directory under zsh directory
+ZSH_CUSTOM=zsh
 
 # Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -27,13 +25,14 @@ alias lt='exa --tree'
 alias vi='nvim'
 alias vim='nvim'
 alias gs='git status'
-alias cat='batcat'
+alias cat='bat'
 alias viconfig='vi ~/.config/nvim/init.lua'
 alias edit='nvim $(fzf --preview="cat {}")'
 
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 [ -f "$HOME/.cargo/env" ] && source $HOME/.cargo/env
 [ -f "$HOME/.ghcup/env" ] && source $HOME/.ghcup/env
+
 # Source plugin manager
 export ZPLUG_HOME=$HOME/.zplug
 source $ZPLUG_HOME/init.zsh
@@ -57,6 +56,7 @@ zplug load
 # Make command green and bold
 ZSH_HIGHLIGHT_STYLES[arg0]=fg=green,bold
 
+
 # Fuzzy find history
 source <(fzf --zsh)
 HISTFILE=~/.zsh_history
@@ -71,3 +71,7 @@ fortune | cowsay
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+
+source /usr/share/nvm/init-nvm.sh
