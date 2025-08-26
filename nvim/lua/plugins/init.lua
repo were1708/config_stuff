@@ -12,4 +12,5 @@ return {
   require("plugins.treesitter"),
   require("plugins.tree"),
   require("plugins.theme"),
+  require("plugins.harpoon"),
 }
