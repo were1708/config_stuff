@@ -28,10 +28,10 @@ return {
     vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end,
       { desc = "Add to harpoon set" })
 
-    vim.keymap.set("n", "<C-y>", function() harpoon:list():select(1) end, { desc = "goto first harpoon" })
-    vim.keymap.set("n", "<C-u>", function() harpoon:list():select(2) end, { desc = "goto second harpoon" })
-    vim.keymap.set("n", "<C-i>", function() harpoon:list():select(3) end, { desc = "goto third harpoon" })
-    vim.keymap.set("n", "<C-o>", function() harpoon:list():select(4) end, { desc = "goto fourth harpoon" })
+    vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end, { desc = "goto first harpoon" })
+    vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end, { desc = "goto second harpoon" })
+    vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end, { desc = "goto third harpoon" })
+    vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end, { desc = "goto fourth harpoon" })
 
     -- Toggle previous & next buffers stored within Harpoon list
     vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end, { desc = "goto previous harpoon" })
