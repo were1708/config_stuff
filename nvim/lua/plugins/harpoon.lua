@@ -27,6 +27,8 @@ return {
       { desc = "Open harpoon window" })
     vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end,
       { desc = "Add to harpoon set" })
+    vim.keymap.set("n", "<leader>A", function() harpoon:list():clear() end,
+      { desc = "Clear harpoon list" })
 
     vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end, { desc = "goto first harpoon" })
     vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end, { desc = "goto second harpoon" })
