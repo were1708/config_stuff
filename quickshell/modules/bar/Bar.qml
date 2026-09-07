@@ -76,6 +76,25 @@ Scope {
           radius: height / 2
           color: Colors.bg1
 
+          MemoryIndicator {}
+        }
+
+        // Kinda useless tbh.
+        // WrapperRectangle {
+        //   anchors.verticalCenter: parent.verticalCenter
+        //   margin: 10
+        //   radius: height / 2
+        //   color: Colors.bg1
+        //
+        //   DiskIndicator {}
+        // }
+
+        WrapperRectangle {
+          anchors.verticalCenter: parent.verticalCenter
+          margin: 10
+          radius: height / 2
+          color: Colors.bg1
+
           NetworkIndicator {}
         }
 

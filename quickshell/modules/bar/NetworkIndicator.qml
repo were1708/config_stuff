@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell.Networking
+import qs.services
 import qs.config
 
 // Network status pill. Click it to open a small manager showing the active
@@ -34,6 +35,16 @@ Item {
     }
     return "Not connected"
   }
+
+  readonly property string activeInterface: {
+    if (wiredConnected)
+      return wiredDevice.name
+    if (wifiConnected)
+      return wifiDevice.name
+    return ""
+  }
+
+  readonly property var bandwidth: NetworkStats.rateFor(activeInterface)
 
   property bool expanded: false
 
@@ -94,6 +105,23 @@ Item {
       text: root.activeName
       color: root.connected ? Colors.aqua : Colors.fg4
       font.pixelSize: Style.fontSize
+    }
+
+    Row {
+      visible: root.connected
+      spacing: 12
+
+      Text {
+        text: "↓ " + NetworkStats.formatRate(root.bandwidth.rx)
+        color: Colors.fg3
+        font.pixelSize: Style.fontSize - 1
+      }
+
+      Text {
+        text: "↑ " + NetworkStats.formatRate(root.bandwidth.tx)
+        color: Colors.fg3
+        font.pixelSize: Style.fontSize - 1
+      }
     }
 
     Repeater {

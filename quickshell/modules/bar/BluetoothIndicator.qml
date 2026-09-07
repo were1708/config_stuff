@@ -16,6 +16,20 @@ Item {
 
   property bool expanded: false
 
+  // Only scan for nearby devices while the manager is actually open.
+  onExpandedChanged: {
+    if (adapter)
+      adapter.discovering = expanded
+  }
+
+  readonly property var pairedDevices: on && adapter
+    ? adapter.devices.values.filter(d => d.paired || d.bonded)
+    : []
+
+  readonly property var availableDevices: on && adapter
+    ? adapter.devices.values.filter(d => !d.paired && !d.bonded)
+    : []
+
   implicitWidth: row.implicitWidth
   implicitHeight: row.implicitHeight
   width: implicitWidth
@@ -81,31 +95,39 @@ Item {
       }
     }
 
+    Text {
+      visible: root.pairedDevices.length > 0
+      text: "Paired"
+      color: Colors.fg3
+      font.pixelSize: Style.fontSize - 2
+      font.bold: true
+    }
+
     Repeater {
-      model: root.on && root.adapter ? root.adapter.devices.values : []
+      model: root.pairedDevices
 
       delegate: Rectangle {
-        id: deviceRow
+        id: pairedRow
         required property BluetoothDevice modelData
 
-        implicitWidth: deviceContent.implicitWidth
-        implicitHeight: deviceContent.implicitHeight + 8
+        implicitWidth: pairedContent.implicitWidth
+        implicitHeight: pairedContent.implicitHeight + 8
         color: "transparent"
 
         Row {
-          id: deviceContent
+          id: pairedContent
           spacing: 8
 
           Text {
             anchors.verticalCenter: parent.verticalCenter
-            text: deviceRow.modelData.connected ? "●" : "○"
-            color: deviceRow.modelData.connected ? Colors.accent : Colors.fg4
+            text: pairedRow.modelData.connected ? "●" : "○"
+            color: pairedRow.modelData.connected ? Colors.accent : Colors.fg4
             font.pixelSize: Style.fontSize - 2
           }
 
           Text {
             anchors.verticalCenter: parent.verticalCenter
-            text: deviceRow.modelData.name
+            text: pairedRow.modelData.name || pairedRow.modelData.address
             color: Colors.fg1
             font.pixelSize: Style.fontSize
           }
@@ -114,16 +136,65 @@ Item {
         MouseArea {
           anchors.fill: parent
           cursorShape: Qt.PointingHandCursor
-          onClicked: deviceRow.modelData.connected
-            ? deviceRow.modelData.disconnect()
-            : deviceRow.modelData.connect()
+          onClicked: pairedRow.modelData.connected
+            ? pairedRow.modelData.disconnect()
+            : pairedRow.modelData.connect()
         }
       }
     }
 
     Text {
-      visible: root.on && root.adapter && root.adapter.devices.values.length === 0
-      text: "No devices found"
+      visible: root.on
+      text: root.adapter && root.adapter.discovering ? "Available (searching…)" : "Available"
+      color: Colors.fg3
+      font.pixelSize: Style.fontSize - 2
+      font.bold: true
+      topPadding: root.pairedDevices.length > 0 ? 6 : 0
+    }
+
+    Repeater {
+      model: root.availableDevices
+
+      delegate: Rectangle {
+        id: availableRow
+        required property BluetoothDevice modelData
+
+        implicitWidth: availableContent.implicitWidth
+        implicitHeight: availableContent.implicitHeight + 8
+        color: "transparent"
+
+        Row {
+          id: availableContent
+          spacing: 8
+
+          Text {
+            anchors.verticalCenter: parent.verticalCenter
+            text: availableRow.modelData.name || availableRow.modelData.address
+            color: Colors.fg1
+            font.pixelSize: Style.fontSize
+          }
+
+          Text {
+            anchors.verticalCenter: parent.verticalCenter
+            text: availableRow.modelData.pairing ? "Pairing…" : "Pair"
+            color: Colors.accent
+            font.pixelSize: Style.fontSize - 2
+          }
+        }
+
+        MouseArea {
+          anchors.fill: parent
+          cursorShape: Qt.PointingHandCursor
+          onClicked: availableRow.modelData.pairing
+            ? availableRow.modelData.cancelPair()
+            : availableRow.modelData.pair()
+        }
+      }
+    }
+
+    Text {
+      visible: root.on && root.availableDevices.length === 0 && !(root.adapter && root.adapter.discovering)
+      text: "No devices found nearby"
       color: Colors.fg4
       font.pixelSize: Style.fontSize
     }
