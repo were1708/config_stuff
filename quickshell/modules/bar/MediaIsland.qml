@@ -10,12 +10,40 @@ import qs.config
 Item {
   id: root
 
-  readonly property MprisPlayer player: Mpris.players.values.find(p => p.isPlaying) ?? null
+  readonly property MprisPlayer activePlayer: Mpris.players.values.find(p => p.isPlaying) ?? null
+  property MprisPlayer player: null
 
   property bool expanded: false
   property bool popupVisible: false
 
   visible: player !== null
+
+  // Keep showing the last active player for a while after it's paused,
+  // instead of vanishing the instant playback stops.
+  onActivePlayerChanged: {
+    if (activePlayer !== null) {
+      player = activePlayer
+      pauseGraceTimer.stop()
+    } else if (player !== null) {
+      pauseGraceTimer.restart()
+    }
+  }
+
+  Timer {
+    id: pauseGraceTimer
+    interval: 30000
+    onTriggered: root.player = null
+  }
+
+  // If the retained player disappears entirely (app closed), don't wait
+  // out the grace period - just hide immediately.
+  Connections {
+    target: Mpris.players
+    function onValuesChanged() {
+      if (root.player !== null && !Mpris.players.values.includes(root.player))
+        root.player = null
+    }
+  }
   implicitWidth: pill.implicitWidth
   implicitHeight: pill.implicitHeight
   width: implicitWidth
@@ -89,7 +117,7 @@ Item {
 
       Column {
         anchors.verticalCenter: parent.verticalCenter
-        spacing: 1
+        spacing: -3
 
         Text {
           text: root.player ? root.truncate(root.player.trackTitle, 100) : ""
