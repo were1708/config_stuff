@@ -79,10 +79,14 @@ return {
         --
         -- When you move your cursor, the highlights will be cleared (the second autocommand).
         local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client and client.server_capabilities.documentHighlightProvider then
+        if client and client:supports_method("textDocument/documentHighlight", { bufnr = event.buf }) then
           vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
             buffer = event.buf,
-            callback = vim.lsp.buf.document_highlight,
+            callback = function()
+              if next(vim.lsp.get_clients({ bufnr = event.buf, method = "textDocument/documentHighlight" })) then
+                vim.lsp.buf.document_highlight()
+              end
+            end,
           })
 
           vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
@@ -121,10 +125,10 @@ return {
       --
       -- But for many setups, the LSP (`tsserver`) will work just fine
       -- tsserver = {},
-      ruby_lsp = {
-        mason = false,
-        cmd = { vim.fn.expand("/home/jrev/.gem/ruby/3.4.0/bin/ruby-lsp") },
-      },
+      -- ruby_lsp = {
+      --   mason = false,
+      --   cmd = { vim.fn.expand("/home/jrevilla/.local/bin/bdv-ruby-lsp") },
+      -- },
 
       lua_ls = {
         -- cmd = {...},
@@ -152,15 +156,28 @@ return {
 
     -- You can add other tools here that you want Mason to install
     -- for you, so that they are available from within Neovim.
-    local ensure_installed = vim.tbl_keys(servers or {})
+    local ensure_installed = vim.tbl_filter(function(server_name)
+      return servers[server_name].mason ~= false
+    end, vim.tbl_keys(servers or {}))
+
     vim.list_extend(ensure_installed, {
       "stylua", -- Used to format Lua code
     })
     require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
     require("mason-lspconfig").setup({
-      ensure_installed = { "lua_ls" },
-      automatic_enable = true, -- or { "lua_ls", "tsserver" } to be specific
+      ensure_installed = ensure_installed,
+      automatic_enable = false,
     })
+
+    for server_name, server in pairs(servers) do
+      local server_config = vim.tbl_deep_extend("force", {}, server, {
+        capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {}),
+      })
+
+      server_config.mason = nil
+      vim.lsp.config(server_name, server_config)
+      vim.lsp.enable(server_name)
+    end
   end,
 }

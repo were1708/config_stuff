@@ -25,7 +25,7 @@ return {
     dashboard.section.buttons.val = {
       dashboard.button("e", "  > New file", ":ene <BAR> startinsert <CR>"),
       dashboard.button("r", "  > Recent", ":Telescope oldfiles<CR>"),
-      dashboard.button("q", "🗙 > Quit NVIM", ":qa<CR>"),
+      dashboard.button("q", "✕ > Quit NVIM", ":qa<CR>"),
     }
 
     require("alpha").setup(dashboard.config)
