@@ -5,4 +5,5 @@ import qs.modules.osd
 Scope {
   Bar {}
   VolumeOsd {}
+  BrightnessOsd {}
 }

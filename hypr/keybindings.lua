@@ -41,6 +41,9 @@ hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(
   'chromium --app="https://primevideo.com" --class=prime-webapp'
 ))
+hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(
+  'chromium --app="https://gmail.com" --class=email-webapp'
+))
 
 -- Move focus with mainMod + Vim motions
 hl.bind(mainMod .. " + H",  hl.dsp.focus({ direction = "left" }))

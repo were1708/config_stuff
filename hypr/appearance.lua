@@ -2,6 +2,9 @@
 ---- LOOK AND FEEL ----
 -----------------------
 
+-- colors.lua is swapped out by ~/.local/bin/theme-switch (see ~/.config/theme/README.md)
+local colors = require("colors")
+
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
 hl.config({
     general = {
@@ -11,8 +14,8 @@ hl.config({
         border_size = 2,
 
         col = {
-            active_border   = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
-            inactive_border = "rgba(595959aa)",
+            active_border   = { colors = {"rgba(" .. colors.accent .. "ee)", "rgba(" .. colors.blue .. "ee)"}, angle = 45 },
+            inactive_border = "rgba(" .. colors.bg3 .. "aa)",
         },
 
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
